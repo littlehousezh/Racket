@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='welcome.css') }}">
+
+    <!-- danielle: import webgazer -->
+    <script src="../static/webgazer.js" type="text/javascript"></script>
+
+    <script>
+    window.onload = function () {
+        // Initialize Webgazer
+        webgazer.setGazeListener(function (data, elapsedTime) {
+            if (data) {
+                // Send eye-tracking data to Flask using AJAX
+                var my_url = "/record_eye_data"; // Your Flask route for handling eye-tracking data
+                var payload = { x: data.x, y: data.y, elapsedTime: elapsedTime };
+
+                $.ajax({
+                    type: 'POST',
+                    url: my_url,
+                    data: JSON.stringify(payload),
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    success: function (response) {
+                        console.log(response.message); // Log the server response (optional)
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('AJAX Error:', status, error);
+                    }
+                });
+            }
+        }).begin();
+    };
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Welcome</h1>
+
+        <p>Thank you for participating in our research study. Please read the instructions below before proceeding.</p>
+
+        <ul>
+            <li>Keep your head at a comfortable position and maintain a consistent distance from the screen.</li>
+            <li>Focus your gaze on the screen, trying not to let your eyes wander.</li>
+            <li>Select the answer you think best answers each question.</li>
+            <li>Click the "Next" button to proceed to the next stimulus.</li>
+            <li>You have to complete calibration before taking the tasks.</li>
+            <li>You have to recalibrate after each break.</li>
+        </ul>
+
+    <p>This portion of the experiment should take 30-40 minutes and you may have a break when finishing every 12 tasks.<br>
+        Afterward, you will complete a short survey, then we will collect your information for extra credits.</p>
+
+        <form action="{{ url_for('calibration',caliindex=1) }}" method="get">
+            <input type="submit" value="Start">
+        </form>
+    </div>
+</body>

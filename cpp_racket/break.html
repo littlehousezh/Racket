@@ -1,0 +1,18 @@
+{% extends 'zkbase.html' %}
+
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='welcome.css') }}">
+{% endblock %}
+
+{% block body %}    <div class="container">
+        <h1 style="font-family:'Times New Roman', Times, serif; font-size: 20px; font-weight: bold;">Break</h1>
+
+        <p>You have compleletd multiple questions, please feel free to have a break!</p>
+        <p>Please also let researchers know when you see this page!!</p>
+
+        <form action="{{ url_for('calibration', caliindex =2) }}" method="get">
+            <input type="submit" value="I am ready! Resume the task">
+        </form>
+
+    </div>
+{% endblock %}
